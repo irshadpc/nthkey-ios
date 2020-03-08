@@ -15,37 +15,14 @@ struct MultisigAddress : Identifiable {
     
     static var receivePublicHDkeys: [HDKey] = []
     
-    init(_ receiveIndex: UInt, network: Network = .testnet) {
+    init(threshold: UInt, receiveIndex: UInt, network: Network = .testnet) {
         if MultisigAddress.receivePublicHDkeys.isEmpty {
-            let encodedCosigners = UserDefaults.standard.array(forKey: "cosigners")!
-            precondition(!encodedCosigners.isEmpty)
-            
-            let fingerprint = UserDefaults.standard.data(forKey: "masterKeyFingerprint")!
-            let entropyItem = KeychainEntropyItem(service: "NthKeyService", fingerprint: fingerprint, accessGroup: nil)
+            let (us, cosigners) = Signer.getSigners()
 
-            // TODO: handle error
-            let entropy = try! entropyItem.readEntropy()
-            let mnemonic = BIP39Mnemonic(entropy)!
-            let seedHex = mnemonic.seedHex()
-            let masterKey = HDKey(seedHex, network)!
-            assert(masterKey.fingerprint == fingerprint)
-        
-            let encodedCosigner = encodedCosigners[0] as! Data
-            let cosigner = try! NSKeyedUnarchiver.unarchivedObject(ofClass: Signer.self, from: encodedCosigner)!
-            
-            let threshold = UserDefaults.standard.integer(forKey: "threshold")
-            precondition(threshold > 0)
-
-            let cointype: String
-            switch (network) {
-            case .mainnet:
-                cointype = "0h"
-            case .testnet:
-                cointype = "1h"
+            MultisigAddress.receivePublicHDkeys.append(try! us.hdKey.derive(BIP32Path("0")!))
+            for cosigner in cosigners {
+                MultisigAddress.receivePublicHDkeys.append(try! cosigner.hdKey.derive(BIP32Path("0")!))
             }
-            
-            MultisigAddress.receivePublicHDkeys.append(try! masterKey.derive(BIP32Path("m/48h/\(cointype)/0h/2h/0")!))
-            MultisigAddress.receivePublicHDkeys.append(try! cosigner.hdKey.derive(BIP32Path("0")!))
         }
         precondition(!MultisigAddress.receivePublicHDkeys.isEmpty)
         
@@ -56,7 +33,7 @@ struct MultisigAddress : Identifiable {
             return childKey.pubKey
         }
 
-        let scriptPubKey = ScriptPubKey(multisig: pubKeys, threshold: 2)
+        let scriptPubKey = ScriptPubKey(multisig: pubKeys, threshold: threshold)
         let receiveAddress = Address(scriptPubKey, network)!
 
         self.description = receiveAddress.description

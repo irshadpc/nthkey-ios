@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F6A2E586F1545C3C5EFA149 /* Pods_NthKey.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA4B65438CE45530547E491B /* Pods_NthKey.framework */; };
+		A2067AC123C8549700F46862 /* WalletManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2067AC023C8549700F46862 /* WalletManager.swift */; };
 		A206E805238D65F300786824 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A206E804238D65F300786824 /* AppDelegate.swift */; };
 		A206E807238D65F300786824 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A206E806238D65F300786824 /* SceneDelegate.swift */; };
 		A206E80C238D65F300786824 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A206E80B238D65F300786824 /* ContentView.swift */; };
@@ -17,14 +18,14 @@
 		A206E81F238D65FC00786824 /* MultisigTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A206E81E238D65FC00786824 /* MultisigTests.swift */; };
 		A206E82A238D65FC00786824 /* MultisigUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A206E829238D65FC00786824 /* MultisigUITests.swift */; };
 		A20D76CE23A406C500A24A38 /* NthKey.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A20D76CD23A406AF00A24A38 /* NthKey.xcdatamodeld */; };
+		A2229EDE23F9928300231791 /* WalletComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2229EDD23F9928300231791 /* WalletComposer.swift */; };
+		A2229EE023F994C700231791 /* WalletComposerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2229EDF23F994C700231791 /* WalletComposerTests.swift */; };
 		A27180B223A291B500E9F443 /* MultisigAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27180B123A291B500E9F443 /* MultisigAddress.swift */; };
 		A27180B623A293EA00E9F443 /* AddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27180B523A293EA00E9F443 /* AddressView.swift */; };
 		A27D4BF623A2B4F30055B0B8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27D4BF523A2B4F30055B0B8 /* SettingsView.swift */; };
-		A27D4BF823A2B7040055B0B8 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27D4BF723A2B7040055B0B8 /* UserDefaultsManager.swift */; };
 		A27D4BFA23A2BA1A0055B0B8 /* BitcoinCoreImport.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27D4BF923A2BA1A0055B0B8 /* BitcoinCoreImport.swift */; };
 		A27D4BFC23A2BECC0055B0B8 /* BitcoinCoreImportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A27D4BFB23A2BECC0055B0B8 /* BitcoinCoreImportTests.swift */; };
 		A285870623AD0B0300930566 /* psbt-128.png in Resources */ = {isa = PBXBuildFile; fileRef = A285870523AD0B0300930566 /* psbt-128.png */; };
-		A285870923AD1AE200930566 /* PSBTOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = A285870823AD1AE200930566 /* PSBTOutput.swift */; };
 		A285870D23AD31C600930566 /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = A285870C23AD31C600930566 /* Destination.swift */; };
 		A29DAAC12391657F006B38D9 /* KeychainEntropyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A29DAAC02391657F006B38D9 /* KeychainEntropyItem.swift */; };
 		A29DAAC3239180CC006B38D9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A29DAAC2239180CC006B38D9 /* README.md */; };
@@ -65,6 +66,7 @@
 		84F9C6E2BA22077B17980104 /* Pods-NthKey-NthKeyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NthKey-NthKeyUITests.release.xcconfig"; path = "Target Support Files/Pods-NthKey-NthKeyUITests/Pods-NthKey-NthKeyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		8794092D4D7B86DD36D227CF /* Pods-Multisig-MultisigUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Multisig-MultisigUITests.release.xcconfig"; path = "Target Support Files/Pods-Multisig-MultisigUITests/Pods-Multisig-MultisigUITests.release.xcconfig"; sourceTree = "<group>"; };
 		961606B1A1E0A92814FFB0B7 /* Pods-NthKey-NthKeyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NthKey-NthKeyUITests.debug.xcconfig"; path = "Target Support Files/Pods-NthKey-NthKeyUITests/Pods-NthKey-NthKeyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A2067AC023C8549700F46862 /* WalletManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletManager.swift; sourceTree = "<group>"; };
 		A206E801238D65F300786824 /* NthKey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NthKey.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A206E804238D65F300786824 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A206E806238D65F300786824 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,14 +82,14 @@
 		A206E829238D65FC00786824 /* MultisigUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigUITests.swift; sourceTree = "<group>"; };
 		A206E82B238D65FC00786824 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A20D76CD23A406AF00A24A38 /* NthKey.xcdatamodeld */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodeld; name = NthKey.xcdatamodeld; path = NthKey/NthKey.xcdatamodeld; sourceTree = SOURCE_ROOT; };
+		A2229EDD23F9928300231791 /* WalletComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletComposer.swift; sourceTree = "<group>"; };
+		A2229EDF23F994C700231791 /* WalletComposerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletComposerTests.swift; sourceTree = "<group>"; };
 		A27180B123A291B500E9F443 /* MultisigAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultisigAddress.swift; sourceTree = "<group>"; };
 		A27180B523A293EA00E9F443 /* AddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressView.swift; sourceTree = "<group>"; };
 		A27D4BF523A2B4F30055B0B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		A27D4BF723A2B7040055B0B8 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		A27D4BF923A2BA1A0055B0B8 /* BitcoinCoreImport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinCoreImport.swift; sourceTree = "<group>"; };
 		A27D4BFB23A2BECC0055B0B8 /* BitcoinCoreImportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitcoinCoreImportTests.swift; sourceTree = "<group>"; };
 		A285870523AD0B0300930566 /* psbt-128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "psbt-128.png"; sourceTree = "<group>"; };
-		A285870823AD1AE200930566 /* PSBTOutput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PSBTOutput.swift; sourceTree = "<group>"; };
 		A285870C23AD31C600930566 /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		A29DAAC02391657F006B38D9 /* KeychainEntropyItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainEntropyItem.swift; sourceTree = "<group>"; };
 		A29DAAC2239180CC006B38D9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
@@ -191,7 +193,6 @@
 			children = (
 				A285870423AD0AF800930566 /* Artwork */,
 				A29DAAC2239180CC006B38D9 /* README.md */,
-				A285870723AD1ACC00930566 /* Extensions */,
 				A27180B323A2939A00E9F443 /* Model */,
 				A27180B423A293BC00E9F443 /* View */,
 				A206E804238D65F300786824 /* AppDelegate.swift */,
@@ -220,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				A27D4BFB23A2BECC0055B0B8 /* BitcoinCoreImportTests.swift */,
+				A2229EDF23F994C700231791 /* WalletComposerTests.swift */,
 				A2F85760239918FF008A44E6 /* SignerTests.swift */,
 				A206E81E238D65FC00786824 /* MultisigTests.swift */,
 				A206E820238D65FC00786824 /* Info.plist */,
@@ -240,11 +242,12 @@
 			isa = PBXGroup;
 			children = (
 				A27D4BF923A2BA1A0055B0B8 /* BitcoinCoreImport.swift */,
+				A2229EDD23F9928300231791 /* WalletComposer.swift */,
 				A29DAAC02391657F006B38D9 /* KeychainEntropyItem.swift */,
 				A27180B123A291B500E9F443 /* MultisigAddress.swift */,
 				A2F8575E23991354008A44E6 /* Signer.swift */,
-				A27D4BF723A2B7040055B0B8 /* UserDefaultsManager.swift */,
 				A2C8545F23B157F2008E4AA1 /* PSBTManager.swift */,
+				A2067AC023C8549700F46862 /* WalletManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -267,14 +270,6 @@
 				A285870523AD0B0300930566 /* psbt-128.png */,
 			);
 			path = Artwork;
-			sourceTree = "<group>";
-		};
-		A285870723AD1ACC00930566 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				A285870823AD1AE200930566 /* PSBTOutput.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -522,9 +517,9 @@
 				A20D76CE23A406C500A24A38 /* NthKey.xcdatamodeld in Sources */,
 				A206E805238D65F300786824 /* AppDelegate.swift in Sources */,
 				A206E807238D65F300786824 /* SceneDelegate.swift in Sources */,
+				A2229EDE23F9928300231791 /* WalletComposer.swift in Sources */,
 				A206E80C238D65F300786824 /* ContentView.swift in Sources */,
-				A285870923AD1AE200930566 /* PSBTOutput.swift in Sources */,
-				A27D4BF823A2B7040055B0B8 /* UserDefaultsManager.swift in Sources */,
+				A2067AC123C8549700F46862 /* WalletManager.swift in Sources */,
 				A27D4BF623A2B4F30055B0B8 /* SettingsView.swift in Sources */,
 				A2C8546023B157F2008E4AA1 /* PSBTManager.swift in Sources */,
 				A2E9E38123ACF1A30049645D /* SignViewController.swift in Sources */,
@@ -543,6 +538,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2229EE023F994C700231791 /* WalletComposerTests.swift in Sources */,
 				A27D4BFC23A2BECC0055B0B8 /* BitcoinCoreImportTests.swift in Sources */,
 				A206E81F238D65FC00786824 /* MultisigTests.swift in Sources */,
 				A2F85761239918FF008A44E6 /* SignerTests.swift in Sources */,
@@ -704,6 +700,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"NthKey/Preview Content\"";
 				DEVELOPMENT_TEAM = 227MFQPYQ4;
 				ENABLE_PREVIEWS = YES;
@@ -713,7 +710,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nthkey.app;
 				PRODUCT_NAME = NthKey;
 				SWIFT_VERSION = 5.0;
@@ -727,6 +724,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"NthKey/Preview Content\"";
 				DEVELOPMENT_TEAM = 227MFQPYQ4;
 				ENABLE_PREVIEWS = YES;
@@ -736,7 +734,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 0.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.nthkey.app;
 				PRODUCT_NAME = NthKey;
 				SWIFT_VERSION = 5.0;

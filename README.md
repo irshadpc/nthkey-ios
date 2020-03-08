@@ -1,4 +1,4 @@
-# Nth Key for iOs
+# Nth Key for iOs [![Build Status](https://travis-ci.org/Sjors/nthkey-ios.svg?branch=master)](https://travis-ci.org/Sjors/nthkey-ios)
 
 Use your iOs device as part of a Bitcoin multi-signature setup.
 
@@ -21,8 +21,16 @@ gem install cocoapods
 pod install --verbose
 ```
 
+To preview documentation:
+
+```sh
+bundle exec jekyll server --incremental --source docs
+```
+
+To get the simulator working directory, export your public key in Settings. The path is printed in the log.  
+
 ## Usage
 
-See [tutorial](https://nthkey.com/tutorial).
+Install from [TestFlight](https://testflight.apple.com/join/Y6cbJbEe) and follow the [tutorial](https://nthkey.com/tutorial).
 
 ## Known issues

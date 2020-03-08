@@ -1,4 +1,6 @@
 ---
+description: Your iOs device in a Bitcoin multi-sig
+image: /assets/ios_confirm.png
 ---
 # Your iOs device in a Bitcoin multi-sig
 
@@ -14,19 +16,19 @@ This is not a wallet, only a key manager. Use [Bitcoin Core](https://bitcoincore
 
 After you create a receive address in Bitcoin Core, you can verify it on the device. That way you can make sure no malware[^malware] on your computer has been messing with it.
 
-![](/assets/addresses.png)
+![](/assets/ios_addresses.png){:height="300pt"}
 
 [^malware]: don't push your luck though, malware can fool you in countless ways
 
 ## Check transaction before you sign
 
-![](/assets/ios_confirm.png)
+![](/assets/ios_confirm.png){:height="300pt"}
 
 ## Combine multiple devices
 
 ### Export and import keys
 
-![](/assets/export_pubkey.png){:width="400pt"}
+![](/assets/export_pubkey.png){:width="300pt"}
 
 ### Multiple NthKey apps
 
@@ -48,7 +50,6 @@ Coming soon (tm)
 ## Known limitations
 
 * Testnet only
-* No M-of-N (only 2-of-2)
 * See [Github issues](https://github.com/Sjors/nthkey-ios/issues)
 
 ## Contact

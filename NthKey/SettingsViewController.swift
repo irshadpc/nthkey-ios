@@ -14,6 +14,8 @@ final class SettingsViewController : UIViewController, UIDocumentPickerDelegate 
     
     var activeFileViewControllerManager: FileViewControllerManager?
     
+    var callbackDidGetURL: ((URL) -> Void)?
+    
     override func viewDidLoad() {
     }
 
@@ -21,6 +23,13 @@ final class SettingsViewController : UIViewController, UIDocumentPickerDelegate 
         
         precondition(activeFileViewControllerManager != nil)
         activeFileViewControllerManager!.didPickDocumentsAt(urls: urls)
+        if let url = activeFileViewControllerManager!.url {
+            callbackDidGetURL!(url)
+        }
+        activeFileViewControllerManager = nil
+    }
+    
+    func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
         activeFileViewControllerManager = nil
     }
     
@@ -31,6 +40,13 @@ final class SettingsViewController : UIViewController, UIDocumentPickerDelegate 
         activeFileViewControllerManager!.prompt(vc: self, delegate: self)
     }
     
+    func saveWalletComposer(_ callback: @escaping (URL) -> Void) {
+        precondition(activeFileViewControllerManager == nil)
+        self.callbackDidGetURL = callback
+        activeFileViewControllerManager = FileViewControllerManager(task: .saveWalletComposer)
+        activeFileViewControllerManager!.prompt(vc: self, delegate: self)
+    }
+    
     func exportBitcoinCore() {
         precondition(UserDefaults.standard.data(forKey: "masterKeyFingerprint") != nil)
         precondition(UserDefaults.standard.array(forKey: "cosigners") != nil)
@@ -38,11 +54,10 @@ final class SettingsViewController : UIViewController, UIDocumentPickerDelegate 
         activeFileViewControllerManager!.prompt(vc: self, delegate: self)
     }
     
-    func addCosigner() {
+    func addCosigner(_ callback: @escaping (URL) -> Void) {
         precondition(activeFileViewControllerManager == nil)
-        // Prompt user to open JSON file if no wallet exists yet
-        precondition(UserDefaults.standard.array(forKey: "cosigners") == nil)
         
+        self.callbackDidGetURL = callback
         activeFileViewControllerManager = FileViewControllerManager(task: .loadCosigner)
         activeFileViewControllerManager!.prompt(vc: self, delegate: self)
     }

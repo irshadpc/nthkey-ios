@@ -9,15 +9,17 @@
 import Foundation
 import LibWally
 
-public class Signer: NSObject, NSSecureCoding {
+public class Signer: NSObject, NSSecureCoding, Identifiable {
     public static var supportsSecureCoding = true
     
     public let fingerprint: Data
     public let derivation: BIP32Path
     public let hdKey: HDKey // TODO: store derivation and fingerprint in HDKey?
+    public let name: String
     
-    public init(fingerprint: Data, derivation: BIP32Path, hdKey: HDKey) {
+    public init(fingerprint: Data, derivation: BIP32Path, hdKey: HDKey, name: String) {
         self.fingerprint = fingerprint
+        self.name = name
         self.derivation = derivation
         self.hdKey = hdKey
     }
@@ -28,20 +30,23 @@ public class Signer: NSObject, NSSecureCoding {
         let path = BIP32Path(derivation)!
         let xpub: String = coder.decodeObject(forKey: "xpub") as! String // TODO: add raw initializer to HDKey
         let hdKey = HDKey(xpub, masterKeyFingerprint:fingerprint)!
-        
-        self.init(fingerprint: fingerprint, derivation: path, hdKey: hdKey)
+        var name = coder.decodeObject(forKey: "name") as? String
+        if name == nil {
+            name = ""
+        }
+        self.init(fingerprint: fingerprint, derivation: path, hdKey: hdKey, name: name!)
     }
     
     public func encode(with coder: NSCoder) {
         coder.encode(fingerprint, forKey:"fingerprint") // TODO: use constants for keys
         coder.encode(derivation.description, forKey:"derivation")
         coder.encode(hdKey.description, forKey:"xpub")
+        coder.encode(name, forKey:"name")
     }
 
     public static func getSigners() -> (Signer, [Signer]) {
-        let encodedCosigners = UserDefaults.standard.array(forKey: "cosigners")!
-        precondition(!encodedCosigners.isEmpty)
-
+        let encodedCosigners = UserDefaults.standard.array(forKey: "cosigners")
+        
         let fingerprint = UserDefaults.standard.data(forKey: "masterKeyFingerprint")!
         let entropyItem = KeychainEntropyItem(service: "NthKeyService", fingerprint: fingerprint, accessGroup: nil)
 
@@ -54,12 +59,18 @@ public class Signer: NSObject, NSSecureCoding {
 
         let path = BIP32Path("m/48h/1h/0h/2h")!
         let ourKey = try! masterKey.derive(path)
-        let us = Signer(fingerprint: fingerprint, derivation: path, hdKey: ourKey)
+        let us = Signer(fingerprint: fingerprint, derivation: path, hdKey: ourKey, name: "NthKey")
 
-        let encodedCosigner = encodedCosigners[0] as! Data
-        let cosigner = try! NSKeyedUnarchiver.unarchivedObject(ofClass: Signer.self, from: encodedCosigner)!
+        guard encodedCosigners != nil && encodedCosigners!.count > 0 else {
+            return (us, [])
+        }
+        var cosigners: [Signer] = []
+        for encodedCosigner in encodedCosigners! {
+            let cosigner: Signer = try! NSKeyedUnarchiver.unarchivedObject(ofClass: Signer.self, from: encodedCosigner as! Data)!
+            cosigners.append(cosigner)
+        }
         
-        return (us, [cosigner])
+        return (us, cosigners)
     }
     
     static func signPSBT(_ psbt: PSBT) -> PSBT {

@@ -18,6 +18,7 @@ struct FileViewControllerManager {
         case exportBitcoinCore
         case loadPSBT
         case savePSBT
+        case saveWalletComposer
     }
     
     let task: Task
@@ -33,7 +34,7 @@ struct FileViewControllerManager {
             documentPicker = UIDocumentPickerViewController(documentTypes: types, in: .import)
         case .loadPSBT:
             documentPicker = UIDocumentPickerViewController(documentTypes: ["org.bitcoin.psbt"], in: .import)
-        case .savePublicKey, .exportBitcoinCore, .savePSBT:
+        case .savePublicKey, .exportBitcoinCore, .savePSBT, .saveWalletComposer:
             documentPicker =
             UIDocumentPickerViewController(documentTypes: [kUTTypeFolder as String], in: .open)
         }
@@ -51,63 +52,40 @@ struct FileViewControllerManager {
             if (urls.count != 1) {
                 NSLog("Please select 1 JSON file")
             }
-            loadCosignerFile(urls[0])
+            self.url = urls[0]
         case .loadPSBT:
             if (urls.count != 1) {
                 NSLog("Please select 1 PSBT file")
             }
             self.url = urls[0]
         case .savePublicKey:
-            print(urls[0])
             if (urls.count != 1) {
                 NSLog("Please select 1 directory")
             }
             precondition(urls[0].hasDirectoryPath)
+            #if targetEnvironment(simulator)
+            print(urls[0])
+            #endif
             savePublicKeyFile(urls[0])
         case .exportBitcoinCore:
-          if (urls.count != 1) {
-              NSLog("Please select 1 directory")
-          }
-          precondition(urls[0].hasDirectoryPath)
-          exportBitcoinCore(urls[0])
+            if (urls.count != 1) {
+                NSLog("Please select 1 directory")
+            }
+            precondition(urls[0].hasDirectoryPath)
+            exportBitcoinCore(urls[0])
         case .savePSBT:
-          if (urls.count != 1) {
-              NSLog("Please select 1 directory")
-          }
-          precondition(urls[0].hasDirectoryPath)
-          savePSBT(urls[0])
-            
-      }
+            if (urls.count != 1) {
+                NSLog("Please select 1 directory")
+            }
+            precondition(urls[0].hasDirectoryPath)
+            savePSBT(urls[0])
+        case .saveWalletComposer:
+            if (urls.count != 1) {
+                NSLog("Please select 1 directory")
+            }
+            self.url = urls[0]
+        }
     }
-        
-    func loadCosignerFile(_ url: URL) {
-          do {
-              let data = try Data(contentsOf: URL(fileURLWithPath: url.path), options: .mappedIfSafe)
-              let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
-              if let jsonResult = jsonResult as? Dictionary<String, String>,
-                  let xfp = jsonResult["xfp"],
-                  let p2wsh_deriv = jsonResult["p2wsh_deriv"],
-                  let p2wsh = jsonResult["p2wsh"]
-              {
-                  let vpub = Data(base58: p2wsh)!
-                  let vpubMarker = Data("02575483")! // Vpub (testnet, p2wsh, public)
-                  if (vpub.subdata(in: 0..<4) != vpubMarker) {
-                      NSLog("Expected Vpub marker 0x%@, got 0x%@", vpubMarker.hexString, vpub.subdata(in: 0..<4).hexString)
-                      return
-                  }
-                  let p2wsh_tpub = Data("043587cf")! + vpub.subdata(in: 4..<vpub.count)
-                  let cosigner = Signer(fingerprint: Data(xfp)!, derivation: BIP32Path(p2wsh_deriv)!, hdKey: HDKey(p2wsh_tpub.base58)!)
-                  let encoded = try! NSKeyedArchiver.archivedData(withRootObject: cosigner, requiringSecureCoding: true)
-                  let defaults = UserDefaults.standard
-                  defaults.set([encoded], forKey: "cosigners")
-                  defaults.set(2, forKey: "threshold")
-                  NSLog("Cosigner %@ added" , xfp)
-              }
-          } catch {
-              NSLog("Something went wrong parsing JSON file")
-              return
-          }
-      }
 
     func exportBitcoinCore(_ url: URL) {
         let (us, cosigners) = Signer.getSigners()
@@ -150,7 +128,11 @@ struct FileViewControllerManager {
             var p2wsh_deriv: String
             var p2wsh: String
         }
-        let export = ColdcardExport(xfp: fingerprint.hexString.uppercased(), p2wsh_deriv: "m/48'/1'/0'/2'", p2wsh: account.xpub)
+        // TODO: get Vpub or Data directly from LibWally
+        let xpub = Data(base58: account.xpub)!
+        // Convert tpub to Electrum compatible Vpub:
+        let p2wsh_tpub = Data("02575483")! + xpub.subdata(in: 4..<xpub.count)
+        let export = ColdcardExport(xfp: fingerprint.hexString.uppercased(), p2wsh_deriv: "m/48'/1'/0'/2'", p2wsh: p2wsh_tpub.base58)
 
         let encoder = JSONEncoder()
         let data = try! encoder.encode(export)
@@ -175,8 +157,7 @@ struct FileViewControllerManager {
         }
 
     }
-    
-    
+
     func getTopMostViewController() -> UIViewController? {
         let keyWindow = UIApplication.shared.connectedScenes
         .filter({$0.activationState == .foregroundActive})

@@ -12,17 +12,16 @@ import LibWally
 
 struct ContentView: View {
     @EnvironmentObject var appState: AppState
-    @ObservedObject var defaults = UserDefaultsManager()
-        
+
     var body: some View {
         TabView(selection: $appState.selectedTab){
             HStack {
                 VStack(alignment: .leading, spacing: 10.0){
                     Text("Addresses")
                         .font(.title)
-                    if (self.defaults.hasCosigners) {
+                    if (self.appState.walletManager.hasWallet) {
                         List {
-                            ForEach((0...1000).map {i in MultisigAddress(i)}) { address in
+                            ForEach((0...1000).map {i in MultisigAddress(threshold: UInt(self.appState.walletManager.threshold), receiveIndex: i)}) { address in
                                 AddressView(address)
                             }
                         }
